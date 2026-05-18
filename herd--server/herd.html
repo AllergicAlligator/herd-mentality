@@ -356,7 +356,7 @@ function showPreRound(round, scoreboard) {
 }
 
 function connect(onOpen) {
-    ws = new WebSocket("ws://172.27.121.230:8000");
+    ws = new WebSocket("wss://://onrender.com");
     ws.onopen = onOpen;
     ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
