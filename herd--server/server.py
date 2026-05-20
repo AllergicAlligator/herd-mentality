@@ -64,16 +64,17 @@ async def game_loop(room_code):
         counts = countanswers(len(room["answers"]), room["answers"])
         room["scoreboard"] = winners(counts, room["answers"], room["scoreboard"])
 
-        broadcast(room_code, {
-            "type": "results",
-            "answers": room["answers"],
-            "scoreboard": room["scoreboard"]
-        })
-
+        # send results to everyone, but host gets results_host
         for ws, name in list(room["players"].items()):
             if name == room["host"]:
                 await ws.send(json.dumps({
                     "type": "results_host",
+                    "answers": room["answers"],
+                    "scoreboard": room["scoreboard"]
+                }))
+            else:
+                await ws.send(json.dumps({
+                    "type": "results",
                     "answers": room["answers"],
                     "scoreboard": room["scoreboard"]
                 }))
