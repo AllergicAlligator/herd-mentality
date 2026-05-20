@@ -5,6 +5,7 @@ import random
 import string
 from functions import countanswers, winners
 from prompts import prompts
+import os
 
 rooms = {}
 
@@ -189,8 +190,9 @@ async def handle_client(ws):
             remove_player(room_code, ws)
 
 async def main():
-    print("Server started on port 8000")
-    async with websockets.serve(handle_client, "0.0.0.0", 8000):
+    port = int(os.environ.get("PORT", 8000))
+    print(f"Server started on port {port}")
+    async with websockets.serve(handle_client, "0.0.0.0", port):
         await asyncio.Future()
 
 asyncio.run(main())
